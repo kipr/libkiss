@@ -4,9 +4,6 @@ TEMPLATE = lib
 TARGET = 
 DEPENDPATH += src
 
-LIBPATH += /Volumes/Eve/lib
-INCLUDEPATH += /Volumes/Eve/include
-
 CONFIG -= qt debug debug_and_release
 CONFIG += staticlib release
 
