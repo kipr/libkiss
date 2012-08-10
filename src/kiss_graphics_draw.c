@@ -23,6 +23,52 @@
 #include <string.h>
 #include <GL/GLee.h>
 
+#define min(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a < _b ? _a : _b; })
+
+inline unsigned char *pixel_ptr(unsigned char *data, unsigned int index)
+{
+	return data + index *3;
+}
+
+inline unsigned char *kiss_pixel_ptr(unsigned int index)
+{
+	return pixel_ptr(kiss_g_graphics_info.data, index);
+}
+
+inline void kiss_graphics_blit(unsigned char *data, int x, int y, int width, int height)
+{
+	kiss_graphics_blit_region(data, 0, 0, width - 1, height - 1, width, height, x, y);
+}
+
+inline void kiss_graphics_blit_region(unsigned char *data, int sx, int sy, int ex, int ey, int width, int height, int dx, int dy)
+{
+	ey = ey > height - 1 ? height - 1 : ey;
+
+	int i = 0;
+	const int hsize = ey - sy;
+	for(i = 0; i < hsize; ++i) {
+		int cols = ex - sx;
+		if(cols + dx > kiss_g_graphics_info.width) cols -= dx;
+		kiss_graphics_blit_section(data,
+			(dy + i) * kiss_g_graphics_info.width + dx,
+			(sy + i) * width + sx,
+			cols);
+	}
+}
+
+inline void kiss_graphics_blit_section(unsigned char *data, int index, int dindex, int length)
+{
+	// Bounds check
+	int bufferSize = kiss_g_graphics_info.width * kiss_g_graphics_info.height;
+	int actualLength = length + dindex < bufferSize ? length : bufferSize - dindex;
+	if(actualLength <= 0) return;
+	
+	memcpy(kiss_g_graphics_info.data + index * 3, data + dindex * 3, actualLength * 3);
+}
+
 inline void kiss_graphics_fill(int r, int g, int b)
 {
 	int i, j;
@@ -38,13 +84,16 @@ inline void kiss_graphics_pixel(int x, int y, int r, int g, int b)
 	if(y < 0) return;
 	if(x >= kiss_g_graphics_info.width) return;
 	if(y >= kiss_g_graphics_info.height) return;
-	
-	y = kiss_g_graphics_info.height - 1 - y;
 
-	if(kiss_g_graphics_info.texture_format == GL_BGRA)
-	  kiss_g_graphics_info.data[x + y*kiss_g_graphics_info.buffer_width] = (r<<16) | (g<<8) | b;
-	else
-	  kiss_g_graphics_info.data[x + y*kiss_g_graphics_info.buffer_width] = (b<<16) | (g<<8) | r;
+	unsigned char *data = kiss_pixel_ptr(x + y * kiss_g_graphics_info.buffer_width);
+	data[1] = g;
+	if(kiss_g_graphics_info.texture_format == GL_BGR) {
+		data[0] = b;
+		data[2] = r;
+	} else {
+		data[0] = r;
+		data[2] = b;
+	}
 }
 
 /* Bressenham algorithm drawn from: http://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm */

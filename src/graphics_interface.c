@@ -58,6 +58,32 @@ void graphics_update()
 	kiss_unlock();
 }
 
+void graphics_blit(unsigned char *data, int x, int y, int width, int height)
+{
+	if(!kiss_init())
+		return;
+
+	kiss_lock();
+	kiss_graphics_lock();
+	if(kiss_g_graphics_enabled)
+		kiss_graphics_blit(data, x, y, width, height);
+	kiss_graphics_unlock();
+	kiss_unlock();
+}
+
+void graphics_blit_region(unsigned char *data, int sx, int sy, int ex, int ey, int width, int height, int dx, int dy)
+{
+	if(!kiss_init())
+		return;
+
+	kiss_lock();
+	kiss_graphics_lock();
+	if(kiss_g_graphics_enabled)
+		kiss_graphics_blit_region(data, sx, sy, ex, ey, width, height, dx, dy);
+	kiss_graphics_unlock();
+	kiss_unlock();
+}
+
 void graphics_fill(int r, int g, int b)
 {
 	if(!kiss_init())

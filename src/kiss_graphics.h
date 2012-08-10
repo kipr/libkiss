@@ -39,7 +39,7 @@ struct graphics_info {
 	int texture_type;
 	
 
-	uint32_t *data;
+	unsigned char *data;
 	int buffer_width;
 	int buffer_height;
 	float texture_width;

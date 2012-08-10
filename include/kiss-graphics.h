@@ -32,6 +32,9 @@ int graphics_init(int width, int height);
 void graphics_quit();
 void graphics_update();
 
+void graphics_blit(unsigned char *data, int x, int y, int width, int height);
+void graphics_blit_region(unsigned char *data, int sx, int sy, int ex, int ey, int width, int height, int dx, int dy);
+
 void graphics_fill(int r, int g, int b);
 
 void graphics_pixel(int x, int y, int r, int g, int b);

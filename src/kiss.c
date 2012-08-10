@@ -141,7 +141,7 @@ void kiss_exec_op(int op, int arg1, int arg2)
 	kiss_g_op_arg2 = arg2;
 	kiss_g_op = op;
 
-	while(kiss_g_op);
+	while(kiss_g_op) usleep(1);
 }
 
 void kiss_lock()

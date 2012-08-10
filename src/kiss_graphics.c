@@ -45,15 +45,14 @@ void kiss_graphics_open_window(int width, int height)
 	else
 		kiss_g_graphics_info.texture_target=GL_TEXTURE_2D;
 	
+	kiss_g_graphics_info.texture_format = GL_RGB;
+	kiss_g_graphics_info.texture_type = GL_UNSIGNED_BYTE;
+	
 	if(major == 1 && minor == 1) {
 		printf("OpenGL Compatibility mode\n");
-		kiss_g_graphics_info.texture_format = GL_RGBA;
-		kiss_g_graphics_info.texture_type = GL_UNSIGNED_BYTE;
 		kiss_g_graphics_info.texture_wrap = GL_CLAMP;
 	} 
 	else {
-		kiss_g_graphics_info.texture_format = GL_BGRA;
-		kiss_g_graphics_info.texture_type = GL_UNSIGNED_INT_8_8_8_8_REV;
 		kiss_g_graphics_info.texture_wrap = GL_CLAMP_TO_EDGE;
 	}
 	  
@@ -125,7 +124,7 @@ void kiss_graphics_create_buffer()
 		while(height > bheight) bheight *= 2;
 	}
 	
-	kiss_g_graphics_info.data = malloc(bwidth*bheight*4);
+	kiss_g_graphics_info.data = malloc(bwidth * bheight * 3);
 	
 	kiss_g_graphics_info.edge_buffer = (short**)malloc(height*sizeof(short*));
 	for(i = 0;i < height; i++)
@@ -181,6 +180,10 @@ void kiss_graphics_setup_gl()
 							0, kiss_g_graphics_info.texture_format, kiss_g_graphics_info.texture_type, (void*)kiss_g_graphics_info.data);
 	glEnable(target);
 	glBindTexture(target, kiss_g_graphics_info.texture);
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, kiss_g_graphics_info.width, 0, kiss_g_graphics_info.height, -1, 1);
 	
 	return;
 }

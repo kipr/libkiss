@@ -23,6 +23,10 @@
 
 #include "kiss_graphics.h"
 
+inline void kiss_graphics_blit(unsigned char *data, int x, int y, int width, int height);
+inline void kiss_graphics_blit_region(unsigned char *data, int sx, int sy, int ex, int ey, int width, int height, int dx, int dy);
+inline void kiss_graphics_blit_section(unsigned char *data, int index, int dindex, int length);
+
 inline void kiss_graphics_fill(int r, int g, int b);
 inline void kiss_graphics_pixel(int x, int y, int r, int g, int b);
 inline void kiss_graphics_line(int x1, int y1, int x2, int y2, int r, int g, int b);
