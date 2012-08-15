@@ -22,7 +22,7 @@
 #define __KISS_H__
 
 #include <GL/GLee.h>
-#include <GL/glfw3.h>
+#include <GL/glfw.h>
 
 #ifdef WIN32
 #include <windows.h>
