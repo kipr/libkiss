@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 #include <GL/GLee.h>
-#include <GL/glfw.h>
+#include <GL/glfw3.h>
 
 typedef GLFWmutex kiss_mutex;
 

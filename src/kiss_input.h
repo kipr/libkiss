@@ -22,7 +22,7 @@
 #define __KISS_INPUT_H__
 
 #include <GL/GLee.h>
-#include <GL/glfw.h>
+#include <GL/glfw3.h>
 
 void kiss_input_callback(int key, int action);
 

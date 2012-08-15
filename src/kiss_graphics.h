@@ -22,7 +22,7 @@
 #define __KISS_GRAPHICS_H__
 
 #include <GL/GLee.h>
-#include <GL/glfw.h>
+#include <GL/glfw3.h>
 
 #include <stdint.h>
 

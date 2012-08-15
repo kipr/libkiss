@@ -22,6 +22,11 @@
 
 #include <stdlib.h>
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+void CPSEnableForegroundOperation(ProcessSerialNumber* psn);
+#endif
+
 volatile struct graphics_info kiss_g_graphics_info;
 
 void kiss_graphics_open_window(int width, int height)
@@ -31,7 +36,15 @@ void kiss_graphics_open_window(int width, int height)
 	kiss_g_graphics_info.width=width;
 	kiss_g_graphics_info.height=height;	
 
-	glfwOpenWindow(width, height, 5, 6, 5, 0, 0, 0, GLFW_WINDOW);
+
+#ifdef __APPLE__
+	ProcessSerialNumber psn;
+	GetCurrentProcess(&psn);
+	CPSEnableForegroundOperation(&psn);
+	SetFrontProcess(&psn);
+#endif
+
+	if(glfwOpenWindow(width, height, 5, 6, 5, 0, 0, 0, GLFW_WINDOW) == GL_FALSE) return;
   
 	glfwGetGLVersion(&major, &minor, &revision);
 	glMatrixMode(GL_PROJECTION);
@@ -59,6 +72,8 @@ void kiss_graphics_open_window(int width, int height)
 	
 	kiss_graphics_create_buffer();
 	kiss_graphics_setup_gl();
+	
+	glfwSetWindowTitle("Graphics Window");
 
 	kiss_g_graphics_info.mutex = glfwCreateMutex();
 	

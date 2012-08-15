@@ -48,9 +48,9 @@ inline void kiss_graphics_blit_region(unsigned char *data, int sx, int sy, int e
 	ey = ey > height - 1 ? height - 1 : ey;
 
 	int i = 0;
-	const int hsize = ey - sy;
+	const int hsize = ey - sy + 1;
 	for(i = 0; i < hsize; ++i) {
-		int cols = ex - sx;
+		int cols = ex - sx + 1;
 		if(cols + dx > kiss_g_graphics_info.width) cols -= dx;
 		kiss_graphics_blit_section(data,
 			(dy + i) * kiss_g_graphics_info.width + dx,
