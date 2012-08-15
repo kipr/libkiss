@@ -25,9 +25,6 @@
 extern "C" {
 #endif
 
-#include <GL/GLee.h>
-#include <GL/glfw.h>
-
 int graphics_init(int width, int height);
 void graphics_quit();
 void graphics_update();
