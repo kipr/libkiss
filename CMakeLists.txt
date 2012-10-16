@@ -11,7 +11,7 @@ SET(SRC ${libkiss_SOURCE_DIR}/src)
 
 INCLUDE_DIRECTORIES(${INCLUDE})
 
-FILE(GLOB INCLUDES ${INCLUDE}/*.h ${SRC}/*.h)
+FILE(GLOB INCLUDES ${INCLUDE}/*.h)
 SET(SOURCES
 	${SRC}/graphics_interface.c
 	${SRC}/kiss.c
@@ -59,7 +59,7 @@ ELSE(APPLE)
 ENDIF(APPLE)
 
 
-install(FILES ${INCLUDES} DESTINATION include/kiss)
+install(FILES ${INCLUDES} DESTINATION include)
 INSTALL(TARGETS kiss ARCHIVE DESTINATION lib)
 
 # add_subdirectory(test)
